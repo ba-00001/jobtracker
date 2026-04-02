@@ -13,9 +13,38 @@ This project demonstrates a complete full-stack application using Flask, MySQL, 
 
 ## Screenshots
 
-![Dashboard screenshot - 800px wide](https://example.com/dashboard-800px.png)
-![Users screenshot - 800px wide](https://example.com/users-800px.png)
-![Job Match screenshot - 800px wide](https://example.com/job-match-800px.png)
+# App Screenshots
+
+- [1. Dashboard](#1-dashboard)
+- [2. Users](#2-users)
+- [3. Companies](#3-companies)
+- [4. Jobs](#4-jobs)
+- [5. Applications](#5-applications)
+- [6. Job Match](#6-job-match)
+- [7. MySQL](#7-MySQL)
+
+---
+
+### 1. Dashboard
+![Dashboard Screenshot](https://github.com/user-attachments/assets/2dd3aefe-a5b8-4b51-90de-c21d17abb381)
+
+### 2. Users
+![Users Screenshot](https://github.com/user-attachments/assets/f1834f5c-05b9-4068-b5fe-1dac51ea46f3)
+
+### 3. Companies
+![Companies Screenshot](https://github.com/user-attachments/assets/ce374515-a2af-4376-bbe4-21a8586b5373)
+
+### 4. Jobs
+![Jobs Screenshot](https://github.com/user-attachments/assets/ba1000a3-80bf-445a-9553-544fb1bcad38)
+
+### 5. Applications
+![Applications Screenshot](https://github.com/user-attachments/assets/20b9377b-d230-4145-ba32-688d0aea48b0)
+
+### 6. Job Match
+![Job Match Screenshot](https://github.com/user-attachments/assets/cbc61cd9-a920-4f7c-a9c8-fa96863fb577)
+
+### 7. MySQL
+![MySQL](https://github.com/user-attachments/assets/34402f7f-6cb9-44b4-90d5-6da3e43d5237)
 
 ## Features
 
