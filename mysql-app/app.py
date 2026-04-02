@@ -8,12 +8,11 @@ import database
 
 
 """mysql-app/app.py
-Flask web application for the Job Application Tracker.
-Defines routes, request handling, form parsing, and page rendering for users, companies, jobs, applications, and matches.
+Flask web app for the Job Application Tracker.
+I define the routes, parse form values, and render pages for users, companies, jobs, applications, and match results.
 """
 
-# This file handles the Flask side of the project.
-# I kept the routes grouped by feature so each page is easier to find and explain.
+# I keep the Flask routes and page logic here so the app stays organized.
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "job-tracker-dev-secret")
 
@@ -76,13 +75,13 @@ def inject_today() -> dict[str, Any]:
 
 @app.route("/")
 def dashboard():
-    # The dashboard pulls together the summary data I want to show on the home page.
+    # I render the home dashboard using the summary data from the database.
     return render_template("dashboard.html", summary=database.get_dashboard_summary())
 
 
 @app.route("/users")
 def users():
-    # This page shows the user list and the create form on the same screen.
+    # I show the user list and the create user form on the same page.
     return render_template("users.html", users=database.get_all_users(), form_data={}, experience_levels=EXPERIENCE_LEVELS)
 
 
@@ -109,7 +108,7 @@ def create_user():
 
 @app.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
 def edit_user(user_id: int):
-    # Edit routes use GET to load the form and POST to save the changes.
+    # I use GET to load the edit form and POST to save the updated user.
     user = database.get_user(user_id)
     if not user:
         flash("User not found.", "error")
@@ -146,12 +145,13 @@ def delete_user(user_id: int):
 
 @app.route("/companies")
 def companies():
-    # Same layout idea as users: table on one side, create form on the other.
+    # I show the companies list with the create form side-by-side.
     return render_template("companies.html", companies=database.get_all_companies(), form_data={})
 
 
 @app.post("/companies/create")
 def create_company():
+    # I read the company form values and save a new company record.
     form_data = {
         "name": request.form.get("name", "").strip(),
         "industry": request.form.get("industry", "").strip(),
@@ -210,7 +210,7 @@ def delete_company(company_id: int):
 
 @app.route("/jobs")
 def jobs():
-    # Jobs need company data too because each job belongs to a company.
+    # I render jobs with company dropdown options because each job belongs to a company.
     return render_template(
         "jobs.html",
         jobs=database.get_all_jobs(),
@@ -223,6 +223,7 @@ def jobs():
 
 @app.post("/jobs/create")
 def create_job():
+    # I read the job form values and save a new job posting.
     form_data = {
         "company_id": request.form.get("company_id", "").strip(),
         "title": request.form.get("title", "").strip(),

@@ -10,10 +10,10 @@ from dotenv import load_dotenv
 
 """mysql-app/database.py
 Database access layer for the Job Application Tracker.
-Contains connection helpers and all CRUD operations for users, companies, jobs, applications, and dashboard logic.
+I keep all SQL queries and CRUD helpers here so app.py stays smaller.
 """
 
-# This file keeps the database work in one place so the Flask routes stay cleaner.
+# I keep the database work in one place so the Flask routes stay cleaner.
 # I wanted app.py to focus on request handling and this file to focus on queries.
 # Load local environment values from .env so I don't have to hardcode credentials.
 load_dotenv()
@@ -30,7 +30,7 @@ DB_CONFIG = {
 
 @contextmanager
 def get_connection():
-    # Each query opens its own connection and closes it right after use.
+    # I open a connection for each query and close it immediately after.
     connection = mysql.connector.connect(**DB_CONFIG)
     try:
         yield connection
@@ -62,7 +62,7 @@ def fetch_all(query: str, params: Iterable[Any] | None = None) -> list[dict[str,
 
 
 def fetch_one(query: str, params: Iterable[Any] | None = None) -> dict[str, Any] | None:
-    # This is the single-row version I use for edit pages and detail lookups.
+    # I use this helper when I only expect a single row back.
     with get_connection() as connection:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query, params or ())
@@ -72,12 +72,12 @@ def fetch_one(query: str, params: Iterable[Any] | None = None) -> dict[str, Any]
 
 
 def execute_query(query: str, params: Iterable[Any] | None = None) -> int:
-    # I use this for inserts, updates, and deletes so every write commits the same way.
+    # I use this for inserts, updates, and deletes and commit the transaction.
     with get_connection() as connection:
         cursor = connection.cursor()
         cursor.execute(query, params or ())
         connection.commit()
-        # Returning lastrowid is useful for inserts, and harmless for updates/deletes.
+        # I return lastrowid for inserts and leave it unused for updates/deletes.
         last_row_id = cursor.lastrowid
         cursor.close()
     return last_row_id
