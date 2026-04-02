@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.env
+_spec_docx/
+_spec_temp.zip

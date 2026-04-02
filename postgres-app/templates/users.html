@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Users | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Table 1</p><h2>Users</h2></div>
+</section>
+
+<section class="panel-grid">
+    <article class="panel">
+        <div class="panel-header"><h3>Add User</h3></div>
+        <form method="post" action="{{ url_for('create_user') }}" class="form-grid">
+            <label>Full Name<input type="text" name="full_name" value="{{ form_data.full_name or '' }}" required></label>
+            <label>Email<input type="email" name="email" value="{{ form_data.email or '' }}" required></label>
+            <label>Phone<input type="text" name="phone" value="{{ form_data.phone or '' }}"></label>
+            <label>Location<input type="text" name="location" value="{{ form_data.location or '' }}"></label>
+            <label>
+                Experience Level
+                <select name="experience_level">
+                    <option value="">Select level</option>
+                    {% for level in experience_levels %}
+                        <option value="{{ level }}" {% if form_data.experience_level == level %}selected{% endif %}>{{ level }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label class="full-width">Skills<input type="text" name="skills" value="{{ form_data.skills or '' }}" placeholder="Python, SQL, Flask"></label>
+            <button type="submit" class="button primary">Create User</button>
+        </form>
+    </article>
+
+    <article class="panel wide">
+        <div class="panel-header"><h3>User Records</h3></div>
+        {% if users %}
+            <table>
+                <thead>
+                    <tr><th>Name</th><th>Email</th><th>Location</th><th>Skills</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.full_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.location or 'N/A' }}</td>
+                            <td>{{ user.skills | join(', ') if user.skills else 'None listed' }}</td>
+                            <td class="actions">
+                                <a class="button secondary small" href="{{ url_for('edit_user', user_id=user.user_id) }}">Edit</a>
+                                <form method="post" action="{{ url_for('delete_user', user_id=user.user_id) }}">
+                                    <button type="submit" class="button danger small">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">Add your first user profile to begin tracking applications.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

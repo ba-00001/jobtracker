@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Applications | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Table 4</p><h2>Applications</h2></div>
+</section>
+
+<section class="panel-grid">
+    <article class="panel">
+        <div class="panel-header"><h3>Add Application</h3></div>
+        <form method="post" action="{{ url_for('create_application') }}" class="form-grid">
+            <label>
+                User
+                <select name="user_id" required>
+                    <option value="">Select user</option>
+                    {% for user in users %}
+                        <option value="{{ user.user_id }}" {% if form_data.user_id|string == user.user_id|string %}selected{% endif %}>{{ user.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>
+                Job
+                <select name="job_id" required>
+                    <option value="">Select job</option>
+                    {% for job in jobs %}
+                        <option value="{{ job.job_id }}" {% if form_data.job_id|string == job.job_id|string %}selected{% endif %}>{{ job.title }} - {{ job.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Applied Date<input type="date" name="applied_date" value="{{ form_data.applied_date or today }}"></label>
+            <label>
+                Stage
+                <select name="stage">
+                    {% for stage in stage_options %}
+                        <option value="{{ stage }}" {% if form_data.stage == stage %}selected{% endif %}>{{ stage }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Source<input type="text" name="source" value="{{ form_data.source or '' }}" placeholder="LinkedIn, Handshake, Referral"></label>
+            <label>Resume Version<input type="text" name="resume_version" value="{{ form_data.resume_version or '' }}"></label>
+            <label>Status<input type="text" name="status" value="{{ form_data.status or '' }}" placeholder="Applied"></label>
+            <label class="checkbox-row"><input type="checkbox" name="cover_letter_sent" {% if form_data.cover_letter_sent %}checked{% endif %}>Cover letter sent</label>
+            <label class="full-width">Notes<textarea name="notes" rows="5">{{ form_data.notes or '' }}</textarea></label>
+            <button type="submit" class="button primary">Create Application</button>
+        </form>
+    </article>
+
+    <article class="panel wide">
+        <div class="panel-header"><h3>Application Records</h3></div>
+        {% if applications %}
+            <table>
+                <thead>
+                    <tr><th>User</th><th>Job</th><th>Company</th><th>Stage</th><th>Applied Date</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                        <tr>
+                            <td>{{ application.full_name }}</td>
+                            <td>{{ application.job_title }}</td>
+                            <td>{{ application.company_name }}</td>
+                            <td>{{ application.stage }}</td>
+                            <td>{{ application.applied_date or 'N/A' }}</td>
+                            <td class="actions">
+                                <a class="button secondary small" href="{{ url_for('edit_application', application_id=application.application_id) }}">Edit</a>
+                                <form method="post" action="{{ url_for('delete_application', application_id=application.application_id) }}">
+                                    <button type="submit" class="button danger small">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">Applications will appear here after you connect users to job postings.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Job Application Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <aside class="sidebar">
+            <div>
+                <p class="eyebrow">Course Project</p>
+                <h1>Job Application Tracker</h1>
+                <p class="sidebar-copy">Track users, companies, jobs, applications, and match scores from one dashboard.</p>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a>
+                <a href="{{ url_for('users') }}" class="{% if request.endpoint in ['users', 'edit_user'] %}active{% endif %}">Users</a>
+                <a href="{{ url_for('companies') }}" class="{% if request.endpoint in ['companies', 'edit_company'] %}active{% endif %}">Companies</a>
+                <a href="{{ url_for('jobs') }}" class="{% if request.endpoint in ['jobs', 'edit_job'] %}active{% endif %}">Jobs</a>
+                <a href="{{ url_for('applications') }}" class="{% if request.endpoint in ['applications', 'edit_application'] %}active{% endif %}">Applications</a>
+                <a href="{{ url_for('matches') }}" class="{% if request.endpoint == 'matches' %}active{% endif %}">Job Match</a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

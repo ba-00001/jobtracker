@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <div>
+        <p class="eyebrow">Overview</p>
+        <h2>Manage your job search workflow</h2>
+        <p>Use the dashboard to monitor activity, application stages, and average skill match across your saved applications.</p>
+    </div>
+    <div class="hero-actions">
+        <a class="button primary" href="{{ url_for('applications') }}">Add Application</a>
+        <a class="button secondary" href="{{ url_for('matches') }}">View Matches</a>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>Total Users</span><strong>{{ summary.total_users }}</strong></article>
+    <article class="stat-card"><span>Total Companies</span><strong>{{ summary.total_companies }}</strong></article>
+    <article class="stat-card"><span>Total Jobs</span><strong>{{ summary.total_jobs }}</strong></article>
+    <article class="stat-card"><span>Total Applications</span><strong>{{ summary.total_applications }}</strong></article>
+    <article class="stat-card accent"><span>Average Match</span><strong>{{ summary.average_match }}%</strong></article>
+</section>
+
+<section class="panel-grid">
+    <article class="panel">
+        <div class="panel-header"><h3>Recent Applications</h3></div>
+        {% if summary.recent_applications %}
+            <div class="list-stack">
+                {% for application in summary.recent_applications %}
+                    <div class="list-item">
+                        <div>
+                            <strong>{{ application.full_name }}</strong>
+                            <p>{{ application.job_title }} at {{ application.company_name }}</p>
+                        </div>
+                        <span class="pill">{{ application.stage }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">No applications added yet.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel">
+        <div class="panel-header"><h3>Pipeline Stages</h3></div>
+        {% if summary.stage_counts %}
+            <div class="list-stack">
+                {% for stage, count in summary.stage_counts.items() %}
+                    <div class="list-item">
+                        <strong>{{ stage }}</strong>
+                        <span class="pill">{{ count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-state">Stage data will appear after applications are added.</p>
+        {% endif %}
+    </article>
+
+    <article class="panel wide">
+        <div class="panel-header"><h3>Top Match Results</h3></div>
+        {% if summary.match_results %}
+            <table>
+                <thead>
+                    <tr><th>User</th><th>Job</th><th>Company</th><th>Match</th></tr>
+                </thead>
+                <tbody>
+                    {% for match in summary.match_results %}
+                        <tr>
+                            <td>{{ match.full_name }}</td>
+                            <td>{{ match.job_title }}</td>
+                            <td>{{ match.company_name }}</td>
+                            <td>{{ match.match_percentage }}%</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">Match scores will appear after users, jobs, and applications are connected.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

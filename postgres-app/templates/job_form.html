@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Update Record</p><h2>Edit Job</h2></div>
+    <a class="button secondary" href="{{ url_for('jobs') }}">Back to Jobs</a>
+</section>
+
+<article class="panel">
+    <form method="post" class="form-grid">
+        <label>
+            Company
+            <select name="company_id" required>
+                <option value="">Select company</option>
+                {% for company in companies %}
+                    <option value="{{ company.company_id }}" {% if form_data.company_id|string == company.company_id|string %}selected{% endif %}>{{ company.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Job Title<input type="text" name="title" value="{{ form_data.title or '' }}" required></label>
+        <label>Location<input type="text" name="location" value="{{ form_data.location or '' }}"></label>
+        <label>
+            Employment Type
+            <select name="employment_type">
+                <option value="">Select type</option>
+                {% for type in employment_types %}
+                    <option value="{{ type }}" {% if form_data.employment_type == type %}selected{% endif %}>{{ type }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Salary Min<input type="number" name="salary_min" value="{{ form_data.salary_min or '' }}"></label>
+        <label>Salary Max<input type="number" name="salary_max" value="{{ form_data.salary_max or '' }}"></label>
+        <label>
+            Status
+            <select name="status">
+                {% for status in job_status_options %}
+                    <option value="{{ status }}" {% if form_data.status == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Posted Date<input type="date" name="posted_date" value="{{ form_data.posted_date }}"></label>
+        <label class="full-width">Required Skills<input type="text" name="required_skills" value="{{ form_data.required_skills | join(', ') if form_data.required_skills is iterable and form_data.required_skills is not string else form_data.required_skills or '' }}"></label>
+        <label class="full-width">Description<textarea name="description" rows="5">{{ form_data.description or '' }}</textarea></label>
+        <div class="button-row">
+            <button type="submit" class="button primary">Save Changes</button>
+            <a class="button secondary" href="{{ url_for('jobs') }}">Cancel</a>
+        </div>
+    </form>
+</article>
+{% endblock %}

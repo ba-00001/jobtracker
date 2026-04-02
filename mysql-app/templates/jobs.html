@@ -1,0 +1,81 @@
+{# Jobs include company and skill requirements because the match feature depends on them. #}
+{% extends "base.html" %}
+
+{% block title %}Jobs | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Table 3</p><h2>Jobs</h2></div>
+</section>
+
+<section class="panel-grid">
+    <article class="panel">
+        <div class="panel-header"><h3>Add Job</h3></div>
+        <form method="post" action="{{ url_for('create_job') }}" class="form-grid">
+            <label>
+                Company
+                <select name="company_id" required>
+                    <option value="">Select company</option>
+                    {% for company in companies %}
+                        <option value="{{ company.company_id }}" {% if form_data.company_id|string == company.company_id|string %}selected{% endif %}>{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Job Title<input type="text" name="title" value="{{ form_data.title or '' }}" required></label>
+            <label>Location<input type="text" name="location" value="{{ form_data.location or '' }}"></label>
+            <label>
+                Employment Type
+                <select name="employment_type">
+                    <option value="">Select type</option>
+                    {% for type in employment_types %}
+                        <option value="{{ type }}" {% if form_data.employment_type == type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Salary Min<input type="number" name="salary_min" value="{{ form_data.salary_min or '' }}"></label>
+            <label>Salary Max<input type="number" name="salary_max" value="{{ form_data.salary_max or '' }}"></label>
+            <label>
+                Status
+                <select name="status">
+                    {% for status in job_status_options %}
+                        <option value="{{ status }}" {% if form_data.status == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Posted Date<input type="date" name="posted_date" value="{{ form_data.posted_date or today }}"></label>
+            <label class="full-width">Required Skills<input type="text" name="required_skills" value="{{ form_data.required_skills or '' }}" placeholder="SQL, Tableau, Flask"></label>
+            <label class="full-width">Description<textarea name="description" rows="5">{{ form_data.description or '' }}</textarea></label>
+            <button type="submit" class="button primary">Create Job</button>
+        </form>
+    </article>
+
+    <article class="panel wide">
+        <div class="panel-header"><h3>Job Records</h3></div>
+        {% if jobs %}
+            <table>
+                <thead>
+                    <tr><th>Title</th><th>Company</th><th>Status</th><th>Skills</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.company_name }}</td>
+                            <td>{{ job.status }}</td>
+                            <td>{{ job.required_skills | join(', ') if job.required_skills else 'None listed' }}</td>
+                            <td class="actions">
+                                <a class="button secondary small" href="{{ url_for('edit_job', job_id=job.job_id) }}">Edit</a>
+                                <form method="post" action="{{ url_for('delete_job', job_id=job.job_id) }}">
+                                    <button type="submit" class="button danger small">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty-state">Add a company first, then create job postings here.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

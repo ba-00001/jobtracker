@@ -1,0 +1,52 @@
+{# This edit page is mostly for updating the stage, notes, and linked records. #}
+{% extends "base.html" %}
+
+{% block title %}Edit Application | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Update Record</p><h2>Edit Application</h2></div>
+    <a class="button secondary" href="{{ url_for('applications') }}">Back to Applications</a>
+</section>
+
+<article class="panel">
+    <form method="post" class="form-grid">
+        <label>
+            User
+            <select name="user_id" required>
+                <option value="">Select user</option>
+                {% for user in users %}
+                    <option value="{{ user.user_id }}" {% if form_data.user_id|string == user.user_id|string %}selected{% endif %}>{{ user.full_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Job
+            <select name="job_id" required>
+                <option value="">Select job</option>
+                {% for job in jobs %}
+                    <option value="{{ job.job_id }}" {% if form_data.job_id|string == job.job_id|string %}selected{% endif %}>{{ job.title }} - {{ job.company_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Applied Date<input type="date" name="applied_date" value="{{ form_data.applied_date }}"></label>
+        <label>
+            Stage
+            <select name="stage">
+                {% for stage in stage_options %}
+                    <option value="{{ stage }}" {% if form_data.stage == stage %}selected{% endif %}>{{ stage }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>Source<input type="text" name="source" value="{{ form_data.source or '' }}"></label>
+        <label>Resume Version<input type="text" name="resume_version" value="{{ form_data.resume_version or '' }}"></label>
+        <label>Status<input type="text" name="status" value="{{ form_data.status or '' }}"></label>
+        <label class="checkbox-row"><input type="checkbox" name="cover_letter_sent" {% if form_data.cover_letter_sent %}checked{% endif %}>Cover letter sent</label>
+        <label class="full-width">Notes<textarea name="notes" rows="5">{{ form_data.notes or '' }}</textarea></label>
+        <div class="button-row">
+            <button type="submit" class="button primary">Save Changes</button>
+            <a class="button secondary" href="{{ url_for('applications') }}">Cancel</a>
+        </div>
+    </form>
+</article>
+{% endblock %}

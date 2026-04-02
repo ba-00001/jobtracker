@@ -1,0 +1,39 @@
+{# This page is focused on the match percentage and the skill comparison breakdown. #}
+{% extends "base.html" %}
+
+{% block title %}Job Match | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div>
+        <p class="eyebrow">Feature</p>
+        <h2>Job Match Results</h2>
+        <p class="section-copy">Each match percentage is based on the overlap between user skills and the required skills listed for the selected job.</p>
+    </div>
+</section>
+
+<article class="panel">
+    {% if matches %}
+        <table>
+            <thead>
+                <tr><th>User</th><th>Job</th><th>Company</th><th>Stage</th><th>Match</th><th>Matched Skills</th><th>Missing Skills</th></tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                    <tr>
+                        <td>{{ match.full_name }}</td>
+                        <td>{{ match.job_title }}</td>
+                        <td>{{ match.company_name }}</td>
+                        <td>{{ match.stage }}</td>
+                        <td><strong>{{ match.match_percentage }}%</strong></td>
+                        <td>{{ match.matched_skills | join(', ') if match.matched_skills else 'None' }}</td>
+                        <td>{{ match.missing_skills | join(', ') if match.missing_skills else 'None' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty-state">Add users, jobs, and applications to generate match percentages.</p>
+    {% endif %}
+</article>
+{% endblock %}

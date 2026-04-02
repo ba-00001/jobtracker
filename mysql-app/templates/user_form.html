@@ -1,0 +1,34 @@
+{# I kept edit pages separate so the update flow feels cleaner than reusing the create form. #}
+{% extends "base.html" %}
+
+{% block title %}Edit User | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Update Record</p><h2>Edit User</h2></div>
+    <a class="button secondary" href="{{ url_for('users') }}">Back to Users</a>
+</section>
+
+<article class="panel">
+    <form method="post" class="form-grid">
+        <label>Full Name<input type="text" name="full_name" value="{{ form_data.full_name or '' }}" required></label>
+        <label>Email<input type="email" name="email" value="{{ form_data.email or '' }}" required></label>
+        <label>Phone<input type="text" name="phone" value="{{ form_data.phone or '' }}"></label>
+        <label>Location<input type="text" name="location" value="{{ form_data.location or '' }}"></label>
+        <label>
+            Experience Level
+            <select name="experience_level">
+                <option value="">Select level</option>
+                {% for level in experience_levels %}
+                    <option value="{{ level }}" {% if form_data.experience_level == level %}selected{% endif %}>{{ level }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label class="full-width">Skills<input type="text" name="skills" value="{{ form_data.skills | join(', ') if form_data.skills is iterable and form_data.skills is not string else form_data.skills or '' }}"></label>
+        <div class="button-row">
+            <button type="submit" class="button primary">Save Changes</button>
+            <a class="button secondary" href="{{ url_for('users') }}">Cancel</a>
+        </div>
+    </form>
+</article>
+{% endblock %}

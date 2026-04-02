@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Company | Job Application Tracker{% endblock %}
+
+{% block content %}
+<section class="section-heading">
+    <div><p class="eyebrow">Update Record</p><h2>Edit Company</h2></div>
+    <a class="button secondary" href="{{ url_for('companies') }}">Back to Companies</a>
+</section>
+
+<article class="panel">
+    <form method="post" class="form-grid">
+        <label>Company Name<input type="text" name="name" value="{{ form_data.name or '' }}" required></label>
+        <label>Industry<input type="text" name="industry" value="{{ form_data.industry or '' }}"></label>
+        <label>Location<input type="text" name="location" value="{{ form_data.location or '' }}"></label>
+        <label>Website<input type="url" name="website" value="{{ form_data.website or '' }}"></label>
+        <label>Recruiter Name<input type="text" name="recruiter_name" value="{{ form_data.recruiter_name or '' }}"></label>
+        <label>Recruiter Email<input type="email" name="recruiter_email" value="{{ form_data.recruiter_email or '' }}"></label>
+        <label class="full-width">Notes<textarea name="notes" rows="5">{{ form_data.notes or '' }}</textarea></label>
+        <div class="button-row">
+            <button type="submit" class="button primary">Save Changes</button>
+            <a class="button secondary" href="{{ url_for('companies') }}">Cancel</a>
+        </div>
+    </form>
+</article>
+{% endblock %}
