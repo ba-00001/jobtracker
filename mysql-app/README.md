@@ -8,11 +8,10 @@ This project demonstrates a complete full-stack application using Flask, MySQL, 
 
 ## Demo Video
 
-- Demo video URL: `https://github.com/your-username/your-repo/blob/main/path-to-your-video-file.mp4`
+
+- [`Demo video`](https://youtu.be/4im3ryqtzMc)
 
 ## Screenshots
-
-Add your screenshots below after uploading them to the repository or image host.
 
 ![Dashboard screenshot - 800px wide](https://example.com/dashboard-800px.png)
 ![Users screenshot - 800px wide](https://example.com/users-800px.png)
@@ -330,7 +329,7 @@ This is a good order for checking the whole application:
 The course submission requires a 3 to 7 minute recorded demo video showing the client, server, and database working together.
 
 - Video description suggestion: `This demo shows the Job Application Tracker project using Flask, MySQL, HTML, and CSS. It demonstrates CRUD operations for users, companies, jobs, and applications, along with the Job Match feature and proof of database updates in MySQL Workbench.`
-- Video URL placeholder: `https://github.com/your-username/your-repo/blob/main/path-to-your-video-file.mp4`
+- [`Demo video`](https://youtu.be/4im3ryqtzMc)
 
 ## GenAI Note
 
