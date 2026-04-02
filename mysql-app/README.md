@@ -4,7 +4,7 @@ Job Application Tracker is a Flask and MySQL web application for organizing a jo
 
 ## Description
 
-This project was built for a database course project and demonstrates a complete full-stack application using Flask, MySQL, HTML, and CSS. The system allows users to manage job search information across four related database tables, perform full CRUD operations, and calculate a job match percentage based on stored user skills and job requirements.
+This project demonstrates a complete full-stack application using Flask, MySQL, HTML, and CSS. The system allows users to manage job search information across four related database tables, perform full CRUD operations, and calculate a job match percentage based on stored user skills and job requirements.
 
 ## Demo Video
 
